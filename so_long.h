@@ -6,15 +6,18 @@
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 11:50:26 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/10 16:29:31 by sael-kha         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:39:33 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
-#include <mlx.h>
-#include "GET_NEXT_LINE/get_next_line.h"
-#include <fcntl.h>
-#include "FT_PRINTF/ft_printf.h"
+#ifndef SO_LONG_H
+# define SO_LONG_H
+
+# include <math.h>
+# include <mlx.h>
+# include "get_next_line.h"
+# include <fcntl.h>
+# include "ft_printf.h"
 
 typedef struct t_game
 {
@@ -38,7 +41,6 @@ typedef struct t_game
 	int		c_start;
 	int		c_end;
 	int		moves;
-	int		test;
 }		t_game;
 
 /* functions for checking map */
@@ -49,11 +51,10 @@ int		check_main(t_game *game);
 void	check_all(t_game *game);
 void	print_shrek(void);
 void	print_hitler(void);
+int		check_non(t_game *game);
 void	free_flood(char **str);
 char	**copy_map(char **map);
 int		flood_fill(char **map, int x, int y, int all);
-int		can_collect_and_escape(t_game **game,
-			int start_x, int start_y, int *collectibles);
 
 /* rendering map */
 void	making_win(t_game *game);
@@ -70,4 +71,7 @@ void	move_up(t_game **game);
 
 /* free error */
 void	free_map(t_game *game, int ok);
-void	free_all(t_game **game);
+void	free_all(t_game *game);
+int		close_win(t_game **game);
+
+#endif

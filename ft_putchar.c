@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:37:02 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/23 11:35:16 by sael-kha         ###   ########.fr       */
+/*   Created: 2024/10/26 12:36:53 by sael-kha          #+#    #+#             */
+/*   Updated: 2024/11/01 11:50:50 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-char	*ft_strdup(char *s)
+void	ft_putchar(char c)
 {
-	char	*dup;
-	int		i;
+	write(1, &c, 1);
+}
 
-	i = ft_strlen(s);
-	dup = malloc(sizeof(char) * (i + 1));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+int	printc(char c)
+{
+	int	count;
+
+	count = 1;
+	ft_putchar(c);
+	return (count);
 }

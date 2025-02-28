@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:37:02 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/23 11:35:16 by sael-kha         ###   ########.fr       */
+/*   Created: 2024/11/20 12:34:45 by sael-kha          #+#    #+#             */
+/*   Updated: 2024/12/12 17:33:55 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-char	*ft_strdup(char *s)
-{
-	char	*dup;
-	int		i;
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
-	i = ft_strlen(s);
-	dup = malloc(sizeof(char) * (i + 1));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
+# include <stdlib.h>
+# include <unistd.h>
+
+int		gnl_strlen(char *s1);
+char	*get_next_line(int fd);
+char	*strjoin(char *s1, char *s2);
+int		is_on_str(char *str, char c);
+char	*check(void);
+
+#endif

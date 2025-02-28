@@ -6,7 +6,7 @@
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 10:18:25 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/10 15:03:00 by sael-kha         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:33:23 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,25 @@ void	making_win(t_game *game)
 	if (game->mlx_ptr == NULL)
 		free_map(game, 1);
 	game->win_ptr = mlx_new_window(game->mlx_ptr,
-			game->size * game->x, game->size * game->y, "khaliha 3la lah");
+			game->size * game->x, game->size * game->y, "so_long");
 	if (game->win_ptr == NULL)
-	{
-		free(game->mlx_ptr);
 		free_map(game, 1);
-	}
 	game->wall = mlx_xpm_file_to_image(game->mlx_ptr,
-			"./images/nazi_wall.xpm", &game->char_x, &game->char_y);
+			"./images/wall.xpm", &game->char_x, &game->char_y);
 	game->character = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./images/char.xpm", &game->char_x, &game->char_y);
 	game->colects = mlx_xpm_file_to_image(game->mlx_ptr,
 			"./images/coin.xpm", &game->char_x, &game->char_y);
 	game->floor = mlx_xpm_file_to_image(game->mlx_ptr,
-			"./images/grr.xpm", &game->char_x, &game->char_y);
+			"./images/floor.xpm", &game->char_x, &game->char_y);
 	game->end = mlx_xpm_file_to_image(game->mlx_ptr,
-			"./images/faran.xpm", &game->char_x, &game->char_y);
+			"./images/door.xpm", &game->char_x, &game->char_y);
 	game->opend_end = mlx_xpm_file_to_image(game->mlx_ptr,
-			"./images/faran_mftoh.xpm", &game->char_x, &game->char_y);
+			"./images/door_mftoh.xpm", &game->char_x, &game->char_y);
+	if (!game->wall || !game->character || !game->colects
+		|| !game->floor || !game->end || !game->opend_end)
+		return (write(1, "\033[31m🚨error\033[0m\nin xpm\n", 29),
+			free_map(game, 0), exit(1));
 }
 
 void	render_back(t_game *game)
@@ -79,9 +80,6 @@ void	render_tile(t_game **game, char tile, int x, int y)
 	if (tile == '1')
 		mlx_put_image_to_window((*game)->mlx_ptr,
 			(*game)->win_ptr, (*game)->wall, x, y);
-	if (tile == '0')
-		mlx_put_image_to_window((*game)->mlx_ptr,
-			(*game)->win_ptr, (*game)->floor, x, y);
 	if (tile == 'C')
 		mlx_put_image_to_window((*game)->mlx_ptr,
 			(*game)->win_ptr, (*game)->colects, x, y);
@@ -108,6 +106,7 @@ void	render_map(t_game **game)
 		while ((*game)->map[y][++i])
 			render_tile(game, (*game)->map[y][i], i * x, y * x);
 	}
+	ft_printf("moves -> %d\n", (*game)->moves++);
 }
 
 void	read_map(t_game *game, char *s)
@@ -117,20 +116,24 @@ void	read_map(t_game *game, char *s)
 
 	fd = open(s, O_RDONLY);
 	if (fd == -1)
-	{
-		ft_printf("\033[31merror\033[0m\nthe map is not available.");
-		free(game);
-		exit(1);
-	}
+		return (ft_printf("\033[31m🚨error\033[0m\nthe map is not available.\n"),
+			free(game), exit(1));
 	game->map = malloc(255);
 	i = 0;
 	while (1)
 	{
 		game->map[i] = get_next_line(fd);
-		if (game->map[i] == NULL)
+		if (game->map[i] == NULL || i > 22 || ft_strlen(game->map[i]) > 40)
+		{
+			game->map[i + 1] = NULL;
 			break ;
+		}
 		i++;
 	}
+	if (i > 22 || ft_strlen(game->map[i - 1]) > 40)
+		return (ft_printf("\033[31m🚨error\033[0m\nmap too BIG\n"), free_all(game));
+	if (i <= 1)
+		return (ft_printf("\033[31m🚨error\033[0m\nmap man3raf\n"), free_all(game));
 	game->x = ft_strlen(game->map[i - 1]);
 	game->y = i;
 }

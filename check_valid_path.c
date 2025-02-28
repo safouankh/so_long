@@ -6,7 +6,7 @@
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 18:45:00 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/10 16:21:19 by sael-kha         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:22:07 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,25 +55,25 @@ char	**copy_map(char **map)
 
 int	flood_fill(char **map, int x, int y, int all)
 {
-	int			exit_found;
-	int static	found;
-	int static	test;
+	int static	door;
+	int static	colected;
+	int			toul;
 
-	if (x <= 0 || y <= 0 || map[y][x] == '1' || map[y][x] == 'X')
+	toul = 0;
+	while (map[toul])
+		toul++;
+	if (y < toul && x < ft_strlen(map[y]) - 1 && map[y][x] == 'E' && !door)
+		ft_printf("", map[y][x] = '1', door = 1);
+	if (colected == all && door)
+		return (1);
+	if (x <= 0 || y <= 0 || y >= toul || x >= ft_strlen(map[y]) - 1
+		|| map[y][x] == '1')
 		return (0);
 	if (map[y][x] == 'C')
-	{
-		test++;
-		map[y][x] = '0';
-	}
-	if (map[y][x] == 'E' && !found)
-		found = 1;
-	if (test == all && found)
-		return (1);
-	map[y][x] = 'X';
-	exit_found = (flood_fill(map, x + 1, y, all)
-			|| flood_fill(map, x - 1, y, all)
-			|| flood_fill(map, x, y + 1, all)
-			|| flood_fill(map, x, y - 1, all));
-	return (exit_found);
+		colected++;
+	map[y][x] = '1';
+	return (flood_fill(map, x + 1, y, all)
+		|| flood_fill(map, x - 1, y, all)
+		|| flood_fill(map, x, y + 1, all)
+		|| flood_fill(map, x, y - 1, all));
 }

@@ -6,7 +6,7 @@
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 18:07:22 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/10 16:29:10 by sael-kha         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:43:00 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	check_main(t_game *game)
 		while (game->map[i][j] != '\0')
 		{
 			if (game->map[i][j] == 'P')
-				ft_printf("", game->c_start++, game->char_x = i,
-					game->char_y = j);
+				ft_printf("", game->c_start++, game->char_x = j,
+					game->char_y = i);
 			if (game->map[i][j] == 'C')
 				game->c_colects++;
 			if (game->map[i][j] == 'E')
@@ -98,21 +98,20 @@ void	check_all(t_game *game)
 	char	**map;
 
 	i = 0;
-	if (game->y >= game->x)
-		ft_printf("\033[31merror\033[0m\nyour map is rectangular\n", i++);
+	if (game->y == game->x)
+		ft_printf("\033[31m🚨error\033[0m\nyour map is rectangular\n", i++);
 	if (check_close(game))
-		ft_printf("\033[31merror\033[0m\nyour map is not closed with walls\n", i++);
+		ft_printf("\033[31m🚨error\033[0m\nyour map is not closed\n", i++);
 	if (check_len(game))
-		ft_printf("\033[31merror\033[0m\nthe line of the map are not equal\n", i++);
+		ft_printf("\033[31m🚨error\033[0m\nlines of the map are not equal\n", i++);
 	if (check_main(game))
-	{
-		ft_printf("\033[31merror\033[0m\n");
-		ft_printf("1 player 1 door and at least 1 collectibles\n", i++);
-	}
+		ft_printf("\033[31m🚨error\033[0m\n1 P 1 E at least 1 C\n", i++);
 	map = copy_map(game->map);
-	if (!flood_fill(map, (game->char_x / 64) + 1,
-			(game->char_y / 64) + 1, game->c_colects))
-		ft_printf("\033[31merror\033[0m\nno valid path\n", i++);
+	if (!flood_fill(map, game->char_x,
+			game->char_y, game->c_colects))
+		ft_printf("\033[31m🚨error\033[0m\nno valid path\n", i++);
+	if (check_non(game))
+		ft_printf("\033[31m🚨error\033[0m\nthere not allowed char\n", i++);
 	free_flood(map);
 	if (i)
 	{

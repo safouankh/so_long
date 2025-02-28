@@ -6,7 +6,7 @@
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 17:37:21 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/07 16:27:29 by sael-kha         ###   ########.fr       */
+/*   Updated: 2025/02/25 19:39:20 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,10 @@ void	move_up(t_game **game)
 		mlx_put_image_to_window((*game)->mlx_ptr,
 			(*game)->win_ptr, (*game)->floor,
 			(*game)->char_x, (*game)->char_y - 64);
-		ft_printf("moves -> %d\n", (*game)->moves++);
 	}
 	if ((*game)->map[((*game)->char_y / 64) - 1][((*game)->char_x / 64)] == 'E'
 		&& (*game)->c_colects == 0)
-		free_all(game);
+		free_all(*game);
 	mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,
 		(*game)->floor, (*game)->char_x, (*game)->char_y);
 	(*game)->char_y -= 64;
@@ -53,11 +52,10 @@ void	move_down(t_game **game)
 		mlx_put_image_to_window((*game)->mlx_ptr,
 			(*game)->win_ptr, (*game)->floor,
 			(*game)->char_x, (*game)->char_y + 64);
-		ft_printf("moves -> %d\n", (*game)->moves++);
 	}
 	if ((*game)->map[((*game)->char_y / 64) + 1][((*game)->char_x / 64)] == 'E'
 			&& (*game)->c_colects == 0)
-		free_all(game);
+		free_all(*game);
 	mlx_put_image_to_window((*game)->mlx_ptr,
 		(*game)->win_ptr, (*game)->floor, (*game)->char_x, (*game)->char_y);
 	(*game)->char_y += 64;
@@ -79,11 +77,10 @@ void	move_left(t_game **game)
 		(*game)->c_colects--;
 		mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,
 			(*game)->floor, (*game)->char_x - 64, (*game)->char_y);
-		ft_printf("moves -> %d\n", (*game)->moves++);
 	}
 	if ((*game)->map[((*game)->char_y / 64)][((*game)->char_x / 64) - 1] == 'E'
 		&& (*game)->c_colects == 0)
-		free_all(game);
+		free_all(*game);
 	mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,
 		(*game)->floor, (*game)->char_x, (*game)->char_y);
 	(*game)->char_x -= 64;
@@ -105,11 +102,10 @@ void	move_right(t_game **game)
 		(*game)->c_colects--;
 		mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,
 			(*game)->floor, (*game)->char_x + 64, (*game)->char_y);
-		ft_printf("moves -> %d\n", (*game)->moves++);
 	}
 	if ((*game)->map[((*game)->char_y / 64)][((*game)->char_x / 64) + 1] == 'E'
 		&& (*game)->c_colects == 0)
-		free_all(game);
+		free_all(*game);
 	mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,
 		(*game)->floor, (*game)->char_x, (*game)->char_y);
 	(*game)->char_x += 64;
@@ -131,7 +127,7 @@ int	handling_input(int keycode, t_game **game)
 	else if (keycode == 2)
 		move_right(game);
 	else if (keycode == 53)
-		free_all(game);
+		free_all(*game);
 	if (!(*game)->c_colects && key == 0)
 	{
 		mlx_put_image_to_window((*game)->mlx_ptr, (*game)->win_ptr,

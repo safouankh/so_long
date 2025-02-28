@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_putunbr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sael-kha <sael-kha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 19:37:02 by sael-kha          #+#    #+#             */
-/*   Updated: 2025/02/23 11:35:16 by sael-kha         ###   ########.fr       */
+/*   Created: 2024/10/27 14:44:00 by sael-kha          #+#    #+#             */
+/*   Updated: 2024/10/31 18:17:54 by sael-kha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "ft_printf.h"
 
-char	*ft_strdup(char *s)
+void	ft_putunbr(unsigned int nbr)
 {
-	char	*dup;
-	int		i;
+	if (nbr > 9)
+		ft_putunbr(nbr / 10);
+	ft_putchar(nbr % 10 + '0');
+}
 
-	i = ft_strlen(s);
-	dup = malloc(sizeof(char) * (i + 1));
-	if (!dup)
-		return (NULL);
-	i = 0;
-	while (s[i])
+int	printu(unsigned int nbr)
+{
+	int				count;
+	unsigned int	nbr2;
+
+	count = 0;
+	ft_putunbr(nbr);
+	nbr2 = nbr;
+	count += (nbr2 == 0);
+	while (nbr2)
 	{
-		dup[i] = s[i];
-		i++;
+		nbr2 /= 10;
+		count++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	return (count);
 }
